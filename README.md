@@ -52,6 +52,7 @@ Go to [my.telegram.org](https://my.telegram.org) → "API development tools" →
 export API_ID=your_api_id_here
 export API_HASH=your_api_hash_here
 ```
+Now you can use env variables to pass them to DTC.
 
 ---
 
