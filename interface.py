@@ -13,10 +13,13 @@ class Interface:
         except KeyboardInterrupt as _:
             print("quit...")
 
-        self.commands = {"list":self._list_channels}
+        self.commands = {
+            "list":self._list_channels,
+            "dump":self._dump
+        }
         self.channels = []
 
-    def _list_channels(self,args:list) -> None:
+    def _list_channels(self,args:list, should_print: bool = True) -> None:
         """list available channels."""
         self.channels = self.d.list_available_channels()
         data = {
@@ -28,10 +31,36 @@ class Interface:
             data["name"].append(ch["title"])
             data["telegram id"].append(ch["id"])
             counter += 1
+        
+        self.df = pd.DataFrame(data)
+        table = tabulate(self.df, headers='keys', tablefmt='psql')
+        if should_print: pydoc.pager(table)
+
+    def _get_channel_id(self, inner_id:int):
+        pass
+    def _dump(self, args:list) -> None:
+        """dump channel using its id."""
+        if len(args) != 1:
+            print("dtc: error: dump requires exactly 1 argument that is channel id!")
+            return
+
+        inner_id = args[0]
+        if not inner_id.isdigit():
+            print("dtc: error: '{}' should be integer!".format(inner_id))
+            return
+        inner_id = int(inner_id)
+
+        try:
+            if not hasattr(self,"df"):self._list_channels([],False)#create df
+                
+            row = self.df.iloc[inner_id]
+            ch_id = row["telegram id"]
+            self.d.dump_channel_by_id(ch_id)
             
-        df = pd.DataFrame(data)
-        table = tabulate(df, headers='keys', tablefmt='psql')
-        pydoc.pager(table)
+        except IndexError as _:
+            print("dtc: error: '{} doesn't exist!".format(inner_id))
+            return
+        
         
     def _run(self) -> None:
         head,*tail = input(">>").split()
