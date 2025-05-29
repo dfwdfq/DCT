@@ -58,6 +58,11 @@ Now you can use env variables to pass them to DTC.
 
 ## 📦 Usage
 
+### Get help first
+```bash
+python3 DTC --help
+```
+
 ### Run the Tool
 
 ```bash
