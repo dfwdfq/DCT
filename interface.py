@@ -9,7 +9,10 @@ class Interface:
     def __init__(self):
         self.cli_args = args.parse()
         try:
-            self.d = Dumper(self.cli_args.api_id,self.cli_args.api_hash)
+            self.d = Dumper(self.cli_args.api_id,
+                            self.cli_args.api_hash,
+                            self.cli_args.output,
+                            self.cli_args.media)
         except KeyboardInterrupt as _:
             print("quit...")
 
