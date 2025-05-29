@@ -10,6 +10,18 @@ class Interface:
         except KeyboardInterrupt as _:
             print("quit...")
 
+        self.commands = {}
+        self.channels = []
 
+    def _run(self):
+        head,*tail = input(">>").split()
+        if head not in self.commands.keys():
+            print("dtc: error: no command '{}'!".format(head))
+        
     def run(self):
-        pass
+        while True:
+            try:
+                self._run()
+            except KeyboardInterrupt as _:
+                print("quit...")
+                return
