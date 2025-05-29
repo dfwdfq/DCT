@@ -9,7 +9,7 @@ from telethon.tl.types import Channel, PeerChannel
 from telethon.errors import FloodWaitError, SessionPasswordNeededError
 
 class Dumper:
-    def __init__(self, api_id: str, api_hash: str, output_file: str = "channel_dump.jsonl", media_dir: str = "media"):
+    def __init__(self, api_id: str, api_hash: str, output_file: str, media_dir: str):
         self.api_id = api_id
         self.api_hash = api_hash
         self.output_file = output_file
